@@ -1,0 +1,24 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.nav{
+    box-shadow: 5px 5px 10px rgb(29, 29, 51);
+}
+.logo{
+    font-family: 'Handlee', cursive;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.loader{
+    animation: slide 100ms;
+}
+@keyframes slide {
+    from {
+      transform: translate(0%);
+    }
+    to {
+      transform: translate(-100%);
+    }
+  }
