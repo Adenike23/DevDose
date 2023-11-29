@@ -11,14 +11,28 @@
     font-size: 1.5rem;
     font-weight: 700;
 }
-.loader{
-    animation: slide 100ms;
+.dashboard{
+  box-shadow: 5px 5px 10px rgb(93, 93, 96);
 }
-@keyframes slide {
-    from {
-      transform: translate(0%);
-    }
-    to {
-      transform: translate(-100%);
-    }
+.active-tab{
+  padding: 5px;
+  color: rgb(24, 23, 23);
+  border-bottom: 3px solid rgb(24, 23, 23);
+}
+@media screen and (max-width: 1300px) {
+  #createPost{
+    columns: 10;
   }
+}
+
+/* .loader{
+    animation: spin 5s infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(100deg);
+  }
+} */

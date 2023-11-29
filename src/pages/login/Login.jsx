@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FaSpinner } from 'react-icons/fa'
 
 
 const Login = ({baseURL}) => {
@@ -12,6 +11,15 @@ const Login = ({baseURL}) => {
     email: '',
     password: ''
   })
+
+  const userInfo = JSON.parse(localStorage.getItem('user'))
+  useEffect(() =>{
+    if(!userInfo) {
+      navigate('/login')
+      console.log(userInfo);
+    }
+  }, [])
+
   const handleChange = (e) => {
     const {name, value} = e.target;
     setFormData({...formData, [name] : value})
@@ -20,12 +28,6 @@ const Login = ({baseURL}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = {}
-    
-    // if(!formData.email.trim()){
-    //     validationErrors.email = 'Email is required'
-    //   } else if (!emailRegEx.test(email.value)) {
-    //         validationErrors.email = 'Email is not valid'
-    //     }
         if(!formData.password){
           validationErrors.password = 'Password is required'
         } else if (!passwordRegEx.test(password.value)) {
@@ -36,7 +38,7 @@ const Login = ({baseURL}) => {
         
         if(Object.keys(validationErrors).length === 0) {
           setLoading(true)
-          console.log(JSON.stringify({email: formData.email, password: formData.password}))
+          // console.log(JSON.stringify({email: formData.email, password: formData.password}))
           const response = await fetch(`${baseURL}/login`, {
             method: 'POST',
             body: JSON.stringify({email: formData.email, password: formData.password}), //data in JSON is a key and value pair
@@ -48,7 +50,6 @@ const Login = ({baseURL}) => {
           if(response) setLoading(false)
           if(!response.ok) validationErrors.password = data.message
           if(response.ok) {
-            // const user = JSON.parse(localStorage.getItem(data))
             localStorage.setItem('user', JSON.stringify(data))
             navigate('/')
           }
@@ -67,7 +68,7 @@ const Login = ({baseURL}) => {
               <label htmlFor="password">Password</label>
               <input type="password" onChange={handleChange} name="password" id="password" className=' text-black p-2 rounded block mt-3' placeholder='********'/>
               {errors.password && <span className='text-red-800'>{errors.password}</span>}
-              {loading ? <div className='btn glass text-white m-3 mt-5'> <FaSpinner/> </div> : <button type="submit" className='btn glass text-white m-3 mt-5'>Login</button>}
+              {loading ? <div className='loader btn glass text-white m-3 mt-5'><i class="fa-solid fa-spinner fa-spin"></i> </div> : <button type="submit" className='btn glass text-white m-3 mt-5'>Login</button>}
               <p className='text-white text-center'>Not logged in? <a href="/signup" className='text-blue-200 underline'>Signup</a></p>
           </form>
       </div>
