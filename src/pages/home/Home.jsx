@@ -5,34 +5,45 @@ import { AiOutlineEye } from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom'
 
 
-const Home = () => {
+const Home = ({baseURL}) => {
   const navigate = useNavigate()
+  const[todos, setTodos] = useState([])
+  const userInfo = JSON.parse(localStorage.getItem('user'))
   
 useEffect(() => {
   const date = new Date()
   const a = date.toLocaleString('default', {weekday: 'short', month: 'long', day: 'numeric', year: 'numeric'})
   document.querySelector('.todaysDate').textContent = a
 }, [])
+
+
+const getBlogs   = async () => {
+  const response = await fetch(`${baseURL}/tasks`, {
+  method: 'GET',
+  headers: {Authorization: `Bearer ${userInfo.token}`}
+})
+  const data = await response.json()
+  if(response.ok) {
+      setTodos(data.todos)
+    }
+}
+useEffect(()=>{
+  getBlogs()
+}, [])
+
+
 // {todo.createdAt.split('').splice(0, 10).join('')}
   return (
     <div className='min-h-[100vh]'>
-    <div className="flex justify-between items-center mt-[4rem] pt-10 py-5 px-10">
+    <div className="flex justify-between items-center mt-[4rem] pt-10 py-5 px-10 text-black">
       <p className='text-2xl'>Blogs</p>
       <p className='todaysDate'></p>
     </div>
     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-10'>
         <div className="card shadow-xl bg-gray-950 text-white cursor-pointer">
         <div className="flex justify-between items-center pt-5 px-6">
-           <p className=''>April 20 2023</p>
+           <p className=''>2023-04-29</p>
            <div className="flex items-center">
-             <div className='flex items-center me-2'>
-               <BiComment/>
-               <p>2</p>
-             </div>
-             <div className='flex items-center'>
-               <AiOutlineEye/>
-               <p>23</p>
-             </div>
            </div>
         </div>
          <div className="card-body">
@@ -43,16 +54,8 @@ useEffect(() => {
        
        <div className="card bg-gray-950 text-white shadow-xl">
        <div className="flex justify-between items-center pt-5 px-6">
-          <p className=''>July 1, 2023</p>
+          <p className=''>2023-01-07</p>
           <div className="flex items-center">
-            <div className='flex items-center me-2'>
-              <BiComment/>
-              <p>2</p>
-            </div>
-            <div className='flex items-center'>
-              <AiOutlineEye/>
-              <p>23</p>
-            </div>
           </div>
        </div>
         <div className="card-body">
@@ -62,17 +65,7 @@ useEffect(() => {
         </div>
        <div className="card bg-gray-950 text-white shadow-xl">
        <div className="flex justify-between items-center pt-5 px-6">
-          <p className=''>July 22, 2023</p>
-          <div className="flex items-center">
-            <div className='flex items-center me-2'>
-              <BiComment/>
-              <p>2</p>
-            </div>
-            <div className='flex items-center'>
-              <AiOutlineEye/>
-              <p>23</p>
-            </div>
-          </div>
+          <p className=''>2023-07-22</p>
        </div>
         <div className="card-body">
           <h2 className="card-title">Designing for User Delight: Principles of Intuitive UI/UX.</h2>
@@ -81,17 +74,7 @@ useEffect(() => {
         </div>
        <div className="card bg-gray-950 text-white shadow-xl">
        <div className="flex justify-between items-center pt-5 px-6">
-          <p className=''>November 15, 2023</p>
-          <div className="flex items-center">
-            <div className='flex items-center me-2'>
-              <BiComment/>
-              <p>2</p>
-            </div>
-            <div className='flex items-center'>
-              <AiOutlineEye/>
-              <p>23</p>
-            </div>
-          </div>
+          <p className=''>2023-11-15</p>
        </div>
         <div className="card-body">
           <h2 className="card-title">Frontend Framework Showdown.</h2>
@@ -100,23 +83,26 @@ useEffect(() => {
         </div>
        <div className="card bg-gray-950 text-white shadow-xl">
        <div className="flex justify-between items-center pt-5 px-6">
-          <p className=''>November 29, 2023</p>
-          <div className="flex items-center">
-            <div className='flex items-center me-2'>
-              <BiComment/>
-              <p>2</p>
-            </div>
-            <div className='flex items-center'>
-              <AiOutlineEye/>
-              <p>23</p>
-            </div>
-          </div>
+          <p className=''>2023-11-29</p>
        </div>
         <div className="card-body">
           <h2 className="card-title">DevOps Culture.</h2>
           <p>Delve into the cultural aspects of DevOps beyond tools and processes. Discuss the importance of collaboration, communication, and automation in creating a DevOps culture that enhances productivity and software quality.</p>
         </div>
         </div>
+
+
+        {todos.map(todo => (
+          <div className="card shadow-xl bg-gray-950 text-white cursor-pointer">
+          <div className="flex justify-between items-center pt-5 px-6">
+             <p className=''>{todo.createdAt.substring(0, 10)}</p>
+          </div>
+           <div className="card-body">
+             <h2 className="card-title">{todo.title}</h2>
+             <p>{todo.description}</p>
+           </div>
+           </div>
+        ))}
     </div>
     </div>
   )

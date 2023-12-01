@@ -78,18 +78,18 @@ const emailRegEx = /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/gm
   return (
     <div className='bg-gray-300'>
       <Navbar formData={formData}/>
-        <form onSubmit={handleSubmit} className='bg-gray-950 text-white absolute left-[50%] top-[70%] md:top-[65%] -translate-x-[50%] -translate-y-[50%] p-10 rounded flex justify-center flex-col sm:w-[65%] md:w-[50%] xl:w-[40%]'>
+        <form onSubmit={handleSubmit} className='bg-gray-950 text-white absolute left-[50%] top-[60%] md:top-[65%] -translate-x-[50%] -translate-y-[50%] p-10 rounded flex justify-center flex-col sm:w-[65%] md:w-[50%] xl:w-[40%]'>
             <label htmlFor="email" className='mt-5'>Email</label>
-            <input type="text" onChange={handleChange} name="email" id="email" className='text-black p-2 rounded block mt-3' autoComplete='off' placeholder='email'/>
+            <input type="text" onChange={handleChange} name="email" id="email" className='border-gray-300 text-white md:text-black p-2 rounded block mt-3' autoComplete='off' placeholder='email'/>
             {errors.email && <span className='text-red-800 bg-red-200 mt-1 rounded text-sm p-1 border border-red-600'>{errors.email}</span>}
             <label htmlFor="userName" className='mt-5'>Username</label>
-            <input type="text" onChange={handleChange} name="username" id="userName" className='text-black p-2 rounded block mt-3' autoComplete='off' placeholder='username'/>
+            <input type="text" onChange={handleChange} name="username" id="userName" className='border-gray-300 text-white md:text-black p-2 rounded block mt-3' autoComplete='off' placeholder='username'/>
             {errors.username && <span className='text-red-800 bg-red-200 mt-1 rounded text-sm p-1 border border-red-600'>{errors.username}</span>}
             <label htmlFor="password" className='mt-5'>Password</label>
-            <input type="password" onChange={handleChange} name="password" id="password" className=' text-black p-2 rounded block mt-3' placeholder='********'/>
+            <input type="password" onChange={handleChange} name="password" id="password" className='border-gray-300 text-white md:text-black p-2 rounded block mt-3' placeholder='********'/>
             {errors.password && <span className='text-red-800 bg-red-200 mt-1 rounded text-sm p-1 border border-red-600'>{errors.password}</span>}
             <label htmlFor="confirmPassword" className='mt-5'>ConfirmPassword</label>
-            <input type="password" onChange={handleChange} name="confirmPassword" id="confirmPassword" className='text-black p-2 rounded block mt-3' autoComplete='off' placeholder='confirmPassword'/>
+            <input type="password" onChange={handleChange} name="confirmPassword" id="confirmPassword" className='border-gray-300 text-white md:text-black p-2 rounded block mt-3' autoComplete='off' placeholder='confirmPassword'/>
             {errors.confirmPassword && <span className='text-red-800 bg-red-200 mt-1 rounded text-sm p-1 border border-red-600'>{errors.confirmPassword}</span>}
             {loading ? <div className='loader btn glass text-white m-3 mt-5'><FaSpinner/></div> : <button type="submit" className='btn glass text-white m-3 mt-5'>Sign up</button>}
         </form>

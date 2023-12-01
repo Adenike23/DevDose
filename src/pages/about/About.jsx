@@ -5,8 +5,8 @@ import { FaRegSmile } from 'react-icons/fa'
 
 const About = () => {
   return (
-    <div className='bg-gray-300 min-h-[100vh] pt-[25rem]'>
-    <div className='absolute left-[50%] top-[70%] md:top-[50%] -translate-x-[50%] -translate-y-[50%] pt-[5rem]'>
+    <div className='bg-gray-300 min-h-[100vh] text-black'>
+    <div className='pt-[8rem] flex flex-col justify-center md:items-center md:pt-[12rem] mx-[5rem] pb-5'>
         <p className='text-3xl'>Welcome to <span className="logo">DevDose</span></p>
         <h1>Hey there! I'm Adenike, the voice behind this corner of the internet. With a passion for all things tech, I'm thrilled to be your guide through the ever-evolving world of technology. Armed with a keen eye for design and a love for clean, efficient code, I specialize in bringing digital visions to life. and have a passion for blogging. Here, we dive into the latest trends, share coding tips, and explore innovative breakthroughs that make our digital lives exciting..</h1>
         <p className='text-3xl mt-4'>Why <span className="logo">DevDose</span></p>

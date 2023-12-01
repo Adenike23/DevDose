@@ -7,6 +7,7 @@ import About from './pages/about/About'
 import BlogDetails from './pages/blogDetails/BlogDetails'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Signup from './pages/signup/Signup'
+import Hello from './pages/hello/hello'
 import Dashboard from './components/dashboard/Dashboard'
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
           <Route path='/about' element={<About baseURL={baseURL}/>}/>
           <Route path='/signup' element={<Signup baseURL={baseURL}/>}/>
           <Route path='/dashboard' element={<Dashboard baseURL={baseURL}/>}/>
+          <Route path='/hello' element={<Hello baseURL={baseURL}/>}/>
           <Route path='/blogDetails/:id' element={<BlogDetails baseURL={baseURL}/>}/>
         </Routes>
       </Router>

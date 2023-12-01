@@ -45,14 +45,14 @@ const Navbar = () => {
       </div>
       <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} md:hidden`}>
         <div className='mx-auto flex gap-5 justify-center items-center'>
-        <a href="" onClick={() => navigate('/')} className="block py-2 text-white text-center">Home</a>
-            <button onClick={() => navigate('/about')} className='text-white cursor-pointer'>About us</button>
+        <a href="" onClick={() => navigate('/')} className="block py-2 text-white text-center mt-1">Home</a>
+            <button onClick={() => navigate('/about')} className='text-white cursor-pointer mt-1'>About us</button>
             {userInfo ? <FiUser onClick={handleToggle} className='text-white text-2xl cursor-pointer'/> : <button onClick={() => navigate('/login')} className='btn mt-3'>Login</button>}
         </div>
       </div>
 
       {toggle && <div>
-          <div class="bg-slate-100 absolute top-12 right-2 rounded p-4">
+          <div class="bg-slate-100 absolute top-12 right-2 rounded p-4 text-black">
               <div onClick={()=> {navigate('/')
               setToggle(!toggle)}} class="modalTop flex items-center gap-2 cursor-pointer">
                   <FiUser className='border rounded-full p-2 text-4xl'/>

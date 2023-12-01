@@ -8,8 +8,11 @@ const Dashboard = ({baseURL}) => {
     const [error, setError] = useState(false)
     const [text, setText] = useState('')
     const [todos, setTodos] = useState([])
+    const [editModal, setEditModal] = useState(false)
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
+    const [titleUpdate, setTitleUpdate] = useState('')
+    const [descriptionUpdate, setDescriptionUpdate] = useState('')
     const [email, setEmail] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -19,7 +22,26 @@ const Dashboard = ({baseURL}) => {
     const navigate = useNavigate()
     const handleTabClick = (tab) => {
         setSelectedTab(tab);
-      };
+    };
+    const [blogID, setBlogID] = useState('')
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleModal = async (id) => {
+        setBlogID(id)
+        setIsOpen(!isOpen);
+        console.log('toggle =>', id);
+        const response = await fetch(`${baseURL}/tasks/${id}`, {
+            method: 'GET',
+            headers: {Authorization: `Bearer ${userInfo.token}`}
+        })
+        const data = await response.json()
+        console.log(response, data);
+        if(response.ok) {
+            setTitleUpdate(data.title)
+            setDescriptionUpdate(data.description)
+        }
+    };
+
 
     const userInfo = JSON.parse(localStorage.getItem('user'))
     useEffect(() =>{
@@ -34,22 +56,24 @@ const Dashboard = ({baseURL}) => {
     const postBlog = async () => {
         setLoading(true)
         console.log(JSON.stringify({title, description}));
-    const response = await fetch(`${baseURL}/add-todo`, {
-        method: 'POST',
+        const response = await fetch(`${baseURL}/add-todo`, {
+            method: 'POST',
             body: JSON.stringify({title, description}), //data in JSON is a key and value pair
             headers: {
                 Authorization: `Bearer ${userInfo.token}`,
                 'Content-Type': 'application/json'
             }
-    })
+        })
     console.log(response);
         const data = await response.json()
         if(response)setLoading(false)
         if(response.ok) {
-            alert(data.detail)
-            setTimeout(() => {
-                location.href = '/dashboard'
-            }, 2000);
+            // alert(data.detail)
+            setTitle('')
+            setDescription('')
+            // setTimeout(() => {
+            //     location.href = '/dashboard'
+            // }, 2000);
         }
         console.log(data);
         if(response.ok == false)
@@ -60,6 +84,7 @@ const Dashboard = ({baseURL}) => {
     }
     
     const getBlogs   = async () => {
+        setLoading(true)
         const response = await fetch(`${baseURL}/tasks`, {
         method: 'GET',
         headers: {Authorization: `Bearer ${userInfo.token}`}
@@ -70,9 +95,9 @@ const Dashboard = ({baseURL}) => {
           }
       if(response) setLoading(false)
     }
-useEffect(()=>{
-    getBlogs()
-}, [])
+    useEffect(()=>{
+        getBlogs()
+    }, [])
 
 
     const updatePassword = async (e) => {
@@ -113,6 +138,30 @@ useEffect(()=>{
         }
     }
 
+
+    const editBlogs = async (id) => {
+        setLoading(true)
+        console.log('edit =>', id);
+        console.log(JSON.stringify({titleUpdate, descriptionUpdate}));
+    const response = await fetch(`${baseURL}/tasks/${id}`, {
+        method: 'PUT',
+            body: JSON.stringify({title: titleUpdate, description: descriptionUpdate}), //data in JSON is a key and value pair
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+                'Content-Type': 'application/json'
+            }
+    })
+    console.log(response);
+        const data = await response.json()
+        if(response)setLoading(false)
+        if(response.ok) {
+            alert(data.detail)
+        }
+        console.log(data);
+        console.log(id);
+    }
+
+
     const deleteBlogs = async (id) => {
         setLoading(true)
     const response = await fetch(`${baseURL}/tasks/${id}`, {
@@ -124,7 +173,8 @@ useEffect(()=>{
     console.log(response);
         const data = await response.json()
         if(response.ok) {
-            alert(data.detail)
+            // alert(data.detail)
+            setText(data.detail)
             setLoading(false)
         }
         console.log(data);
@@ -136,28 +186,49 @@ useEffect(()=>{
 
   return (
     <div className='h-[100vh]'>
-        <div className="dashboard absolute left-[50%] top-[55%] md:top-[55%] -translate-x-[50%] -translate-y-[50%] w-[80%] h-[80vh] bg-gray-400 text-white rounded px-[2rem] md:w-auto md:px-[4rem] py-[2rem]">
+        <div className="dashboard w-[80%] absolute left-[50%] top-[57%] md:top-[55%] -translate-x-[50%] -translate-y-[50%] md:w-[60%] lg:w-[45%] h-[85vh] bg-gray-400 text-white rounded px-[2rem] md:px-[4rem] py-[2rem]">
             <p className='logo border-b-2 pb-3 text-2xl font-bold'>Dashboard</p>
-            <div className="gap-3 justify-around flex my-6 border-b-2 pb-5 md:gap-12">
+            <div className="flex justify-around my-6 border-b-2 pb-5 md:gap-12">
                 <button className={selectedTab === 'tab1' ? 'active-tab' : 'inactive-tab'} onClick={() => handleTabClick('tab1')}>Add a Post</button>
                 <button className={selectedTab === 'tab2' ? 'active-tab' : 'inactive-tab'} onClick={() => handleTabClick('tab2')}>All Posts</button>
                 <button className={selectedTab === 'tab3' ? 'active-tab' : 'inactive-tab'} onClick={() => handleTabClick('tab3')}>Account Settings</button>
             </div>
             {selectedTab === 'tab1' && <div className=''>
             {error && <p className='text-red-800 bg-red-200 rounded text-sm p-1 border border-red-600 text-center'>Description of your task is reqiured</p>}
-                <input type="text" name="title" id="title" className='p-2 w-[100%] mt-5 text-black rounded' placeholder='add a title' onChange={e => setTitle(e.target.value)}/>
-                <textarea name="createPost" id="createPost" cols="70" rows="6" placeholder='create a post' className='rounded text-black p-2 mt-3 w-[100%]' onChange={e => setDescription(e.target.value)}></textarea>
-                {loading ? <div className='loader btn glass pt-4 text-white m-3 block w-[95%]'><i class="fa-solid fa-spinner fa-spin"></i></div> :<button onClick={()=>postBlog()} className='btn glass text-white m-3 block w-[100%] mt-6'>Post</button>}
+                <input type="text" name="title" id="title" className='p-2 w-[100%] mt-5 border-slate-300 text-white md:text-black rounded' placeholder='add a title' value={title} onChange={e => setTitle(e.target.value)}/>
+                <textarea name="createPost" id="createPost" cols="70" rows="6" placeholder='create a post' className='rounded  border-slate-300 text-white md:text-black p-2 mt-3 w-[100%]' value={description} onChange={e => setDescription(e.target.value)}></textarea>
+                {loading ? <div className='loader btn glass pt-4 text-white m-3 block w-[95%]'><i class="fa-solid fa-spinner fa-spin"></i></div> : <button onClick={() => postBlog()} className='btn glass text-white md:m-3 block w-[100%] mt-6'>Post</button>}
             </div>}
+
             {selectedTab === 'tab2' && <div className=''>
-            {text && <p className='deleted text-green-800 bg-green-200 rounded text-sm p-1 border border-green-600 text-center'></p>}
+            {text && <p className='text-green-800 bg-green-200 rounded text-sm p-1 border border-green-600 text-center'>{text}</p>}
+            {loading ? <div className='flex justify-center pt-4 text-white m-3 w-[90%]'><i class="fa-solid fa-spinner fa-spin"></i></div> : ''}
                 {todos.map(todo => (
                     <div className="flex justify-between items-center my-3">
-                    <p onClick={() => navigate(`/blogDetails/${todo._id}`)} className='cursor-pointer'>{todo.title}</p>
+                    <p onClick={() => navigate(`/blogDetails/${todo._id}`)} className='cursor-pointer uppercase font-bold hover:text-black'>{todo.title.substring(0, 14) + '...'}</p>
                     <div className="flex gap-2">
-                        <button className='btn'>Edit</button>
+                    <button onClick={() => toggleModal(todo._id)} className='btn'>Edit</button>
                         <button onClick={()=> deleteBlogs(todo._id)} className='btn bg-red-500'>Delete</button>
                     </div>
+
+                    {isOpen && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-50">
+                    <div className="bg-white rounded-lg p-8 w-2/3">
+                        <span
+                        className="absolute top-0 right-0 m-4 cursor-pointer"
+                        onClick={toggleModal}
+                        >
+                        <div className="text-2xl"><i class="ri-close-line"></i></div>
+                        </span>
+                        <p className="text-lg">
+                        <input type="text" name="title" id="title" className='p-2 w-[100%] mt-5 border-black text-black rounded' placeholder='update title' value={titleUpdate} onChange={e => setTitleUpdate(e.target.value)}/>
+                            <textarea name="createPost" id="createPost" cols="70" rows="6" placeholder='update description' className='rounded  border-slate-300 text-black p-2 mt-3 w-[100%]' value={descriptionUpdate} onChange={e => setDescriptionUpdate(e.target.value)}></textarea>
+                            {loading ? <div className='loader btn bg-gray-300 pt-4 text-white m-3 block w-[95%]'><i class="fa-solid fa-spinner fa-spin"></i></div> :<button onClick={() => editBlogs(blogID)} className='btn bg-gray-300 text-white m-3 block w-[100%] mt-6'>Update Post</button>}
+                            </p>
+                        </div>
+                        </div>
+                    )}
+
                 </div>
                 ))}
                 {loading ? <div className='flex justify-center pt-4 text-white m-3 w-[90%]'><i class="fa-solid fa-spinner fa-spin"></i></div> : ''}
@@ -165,13 +236,13 @@ useEffect(()=>{
             {selectedTab === 'tab3' && <form onSubmit={updatePassword}>
                 {error && <p className='text-red-800 bg-red-200 rounded text-sm p-1 border border-red-600 text-center'>Fields cannot be empty</p>}
                 <label htmlFor="email" className=''>Email</label>
-                <input type="text" name="email" id="email" className='w-[100%] text-black p-2 rounded block mt-3' placeholder='email' onChange={(e) => setEmail(e.target.value)}/>
+                <input type="text" name="email" id="email" className='w-[100%] border-slate-300 text-white md:text-black p-2 rounded block mt-3' placeholder='email' onChange={(e) => setEmail(e.target.value)}/>
                 <label htmlFor="userName" className='mt-5'>Username</label>
-                <input type="text" name="username" id="userName" className='w-[100%] text-black p-2 rounded block mt-3' placeholder='username' onChange={(e) => setUsername(e.target.value)}/>
+                <input type="text" name="username" id="userName" className='w-[100%] border-slate-300 text-white md:text-black p-2 rounded block mt-3' placeholder='username' onChange={(e) => setUsername(e.target.value)}/>
                 <label htmlFor="password" className='mt-5'>Password</label>
-                <input type="password" name="password" id="password" className='w-[100%] text-black p-2 rounded block mt-3' placeholder='********' onChange={(e) => setPassword(e.target.value)}/>
+                <input type="password" name="password" id="password" className='w-[100%] border-slate-300 text-white md:text-black p-2 rounded block mt-3' placeholder='********' onChange={(e) => setPassword(e.target.value)}/>
                 <label htmlFor="newPassword" className='mt-5'>New Password</label>
-                <input type="newPassword" name="newPassword" id="newPassword" className='w-[100%] text-black p-2 rounded block mt-3' placeholder='********' onChange={(e) => setNew_password(e.target.value)}/>
+                <input type="newPassword" name="newPassword" id="newPassword" className='w-[100%] border-slate-300 text-white md:text-black p-2 rounded block mt-3' placeholder='********' onChange={(e) => setNew_password(e.target.value)}/>
                 {loading ? <div className='loader btn glass pt-4 text-white m-3 block w-[95%]'><i class="fa-solid fa-spinner fa-spin"></i></div> : <button type='submit' className='btn glass text-white m-3 block w-[95%]'>Update Password</button>}
             </form>}
         </div>
