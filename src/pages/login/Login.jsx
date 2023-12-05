@@ -61,14 +61,14 @@ const Login = ({baseURL}) => {
   
     return (
       <div className='bg-gray-300 h-[100vh]'>
-          <form onSubmit={handleSubmit} className='bg-gray-950 text-white absolute left-[50%] top-[50%] md:top-[50%] -translate-x-[50%] -translate-y-[50%] p-10 rounded flex justify-center flex-col sm:w-[65%] md:w-[50%] xl:w-[40%]'>
+          <form onSubmit={handleSubmit} className='bg-gray-950 text-white absolute left-[50%] top-[50%] md:top-[50%] -translate-x-[50%] -translate-y-[50%] p-10 rounded flex justify-center flex-col w-[90%] md:w-[50%] xl:w-[40%]'>
               <label htmlFor="email">Email</label>
-              <input type="email" onChange={handleChange} name="email" id="email" className='text-white md:text-black p-2 rounded block mt-3 mb-5 border-gray-300' placeholder='username'/>
+              <input type="email" onChange={handleChange} name="email" id="email" className=' bg-white text-black p-2 rounded block mt-3 mb-5 border-gray-300' placeholder='username'/>
               {errors.email && <span className='text-red-800'>{errors.email}</span>}
               <label htmlFor="password">Password</label>
-              <input type="password" onChange={handleChange} name="password" id="password" className='text-white md:text-black p-2 rounded block mt-3 border-gray-300' placeholder='********'/>
+              <input type="password" onChange={handleChange} name="password" id="password" className='bg-white text-black p-2 rounded block mt-3 border-gray-300' placeholder='********'/>
               {errors.password && <span className='text-red-800'>{errors.password}</span>}
-              {loading ? <div className='loader btn glass text-white m-3 mt-5'><i class="fa-solid fa-spinner fa-spin"></i> </div> : <button type="submit" className='btn glass text-white m-3 mt-5'>Login</button>}
+              {loading ? <div className='loader btn glass text-white my-7'><i class="fa-solid fa-spinner fa-spin"></i> </div> : <button type="submit" className='btn glass text-white my-7'>Login</button>}
               <p className='text-white text-center'>Not logged in? <a href="/signup" className='text-blue-200 underline'>Signup</a></p>
           </form>
       </div>

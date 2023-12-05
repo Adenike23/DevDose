@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 .nav{
-    box-shadow: 5px 5px 10px rgb(29, 29, 51);
+    box-shadow: 5px 2px 10px rgb(29, 29, 51);
 }
 .logo{
     font-family: 'Handlee', cursive;
@@ -19,20 +19,39 @@
   color: rgb(24, 23, 23);
   border-bottom: 3px solid rgb(24, 23, 23);
 }
+.paginationBttns {
+  width: 80%;
+  height: 40px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin: 3rem auto;
+}
+
+.paginationBttns a {
+  padding: 10px;
+  margin: 8px;
+  border-radius: 5px;
+  border: 1px solid white;
+  color: white;
+  cursor: pointer;
+}
+
+.paginationBttns a:hover {
+  color: black;
+  background-color: white;
+}
+
+.paginationActive a {
+  color: black;
+  background-color: white;
+}
+
+.paginationDisabled a {
+  background-color: rgb(60, 59, 59);
+}
 @media screen and (max-width: 1300px) {
   #createPost{
     columns: 10;
   }
 }
-
-/* .loader{
-    animation: spin 5s infinite;
-}
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(100deg);
-  }
-} */

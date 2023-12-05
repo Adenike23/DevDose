@@ -13,7 +13,6 @@ const Navbar = () => {
    setIsMobileMenuOpen(!isMobileMenuOpen);
    };
    const handleToggle= () => {
-    // alert('hey')
     setToggle(!toggle)
   }
   const handleLogout = () => {
@@ -45,16 +44,22 @@ const Navbar = () => {
       </div>
       <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} md:hidden`}>
         <div className='mx-auto flex gap-5 justify-center items-center'>
-        <a href="" onClick={() => navigate('/')} className="block py-2 text-white text-center mt-1">Home</a>
-            <button onClick={() => navigate('/about')} className='text-white cursor-pointer mt-1'>About us</button>
-            {userInfo ? <FiUser onClick={handleToggle} className='text-white text-2xl cursor-pointer'/> : <button onClick={() => navigate('/login')} className='btn mt-3'>Login</button>}
+        <button onClick={() => {navigate('/')
+      setIsMobileMenuOpen(!isMobileMenuOpen)
+      setToggle(close)}} className="block py-2 text-white text-center mt-1">Home</button>
+            <button onClick={() => {navigate('/about')
+            setIsMobileMenuOpen(!isMobileMenuOpen)
+            setToggle(close)}} className='text-white cursor-pointer mt-1'>About us</button>
+            {userInfo ? <FiUser onClick={handleToggle} className='text-white text-2xl cursor-pointer'/> : <button onClick={() => {navigate('/login')
+            setIsMobileMenuOpen(!isMobileMenuOpen)}} className='btn mt-3'>Login</button>}
         </div>
       </div>
 
       {toggle && <div>
           <div class="bg-slate-100 absolute top-12 right-2 rounded p-4 text-black">
               <div onClick={()=> {navigate('/')
-              setToggle(!toggle)}} class="modalTop flex items-center gap-2 cursor-pointer">
+              setToggle(!toggle)
+              setIsMobileMenuOpen(!isMobileMenuOpen)}} class="modalTop flex items-center gap-2 cursor-pointer">
                   <FiUser className='border rounded-full p-2 text-4xl'/>
                       <div class="modalIcon p-1">
                           <p>Welcome</p>
@@ -62,7 +67,8 @@ const Navbar = () => {
                       </div>
               </div>
               <div onClick={() => {navigate('/dashboard')
-              setToggle(!toggle)}} className="flex justify-around items-center mt-1 mb-2 ps-2 cursor-pointer">
+              setToggle(!toggle)
+              setIsMobileMenuOpen(!isMobileMenuOpen)}} className="flex justify-around items-center mt-1 mb-2 ps-2 cursor-pointer">
                 <i class="ri-dashboard-fill"></i>
                 <p className='text-center text-sm ml-6'>Dashboard</p>
               </div>
