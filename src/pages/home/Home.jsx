@@ -19,7 +19,7 @@ const getBlogs   = async () => {
   setLoading(true)
   const response = await fetch(`${baseURL}/`, {
   method: 'GET',
-  headers: {Authorization: `Bearer ${userInfo.token}`}
+  // headers: {Authorization: `Bearer ${userInfo.token}`}
 })
   const data = await response.json()
   if(response.ok) {
