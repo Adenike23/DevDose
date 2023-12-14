@@ -231,8 +231,8 @@ const Dashboard = ({baseURL}) => {
                     <div className="flex gap-2 justify-between items-center my-5">
                     <p className='uppercase font-bold'>{todo.title.length >= 10 ? todo.title.substring(0, 14) + '...' : todo.title}</p>
                     <div className="flex gap-2">
-                    <button onClick={() => toggleModal(todo._id)} className='btn bg-white'>Edit</button>
-                        <button onClick={()=> deleteBlogs(todo._id)} className='btn bg-red-500'>Delete</button>
+                    <button onClick={() => toggleModal(todo._id)} className='btn border-none bg-white'>Edit</button>
+                        <button onClick={()=> deleteBlogs(todo._id)} className='btn border-none bg-red-500'>Delete</button>
                     </div>
 
                     {isOpen && (
