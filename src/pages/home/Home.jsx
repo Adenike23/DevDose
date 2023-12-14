@@ -98,7 +98,7 @@ useEffect(()=>{
           </div>
            <div className="card-body">
              <h2 className="card-title">{todo.title}</h2>
-             <p>{todo.description}</p>
+             <p>{todo.description && todo.description.length >= 100 ? todo.description.substring(0, 130) + '...' : todo.description}</p>
            </div>
            </div>
         ))}
