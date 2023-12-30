@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 import ReactPaginate from 'react-paginate'
+import { useRef } from 'react';
 
 const Dashboard = ({baseURL}) => {
     const [selectedTab, setSelectedTab] = useState('tab1');
@@ -50,12 +51,12 @@ const Dashboard = ({baseURL}) => {
         }
     };
 
-
+    const inputRef = useRef()
     const userInfo = JSON.parse(localStorage.getItem('user'))
     useEffect(() =>{
     if(userInfo) {
       navigate('/dashboard')
-    //   console.log(userInfo);
+    inputRef.current?.focus()
     } else if (!userInfo){
         navigate('/login')
     }
@@ -219,8 +220,8 @@ const Dashboard = ({baseURL}) => {
             {error && <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
             <span class="font-medium">Alert!</span> The description should consist of at least 200 words..
             </div>}
-                <input type="text" name="title" id="title" className='p-2 w-[100%] mt-5 border-slate-300 bg-white text-black rounded' placeholder='add a title' value={title} onChange={e => setTitle(e.target.value)}/>
-                <textarea name="createPost" id="createPost" cols="70" rows="6" placeholder='create a post' className='rounded bg-white border-slate-300 text-black p-2 mt-3 w-[100%]' value={description} onChange={e => setDescription(e.target.value)}></textarea>
+                <input ref={inputRef} type="text" name="title" id="title" className='box p-2 w-[100%] mt-5 border-slate-300 bg-white text-black rounded focus:outline-none' placeholder='add a title' value={title} onChange={e => setTitle(e.target.value)}/>
+                <textarea name="createPost" id="createPost" cols="70" rows="6" placeholder='create a post' className='box focus:outline-none rounded bg-white border-slate-300 text-black p-2 mt-3 w-[100%]' value={description} onChange={e => setDescription(e.target.value)}></textarea>
                 {loading ? <div className='btn glass pt-4 text-white mt-4 block w-[95%]'><i class="fa-solid fa-spinner fa-spin"></i></div> : <button onClick={() => postBlog()} className='btn glass text-white block w-[100%] mt-4'>Post</button>}
             </div>}
 
@@ -262,13 +263,13 @@ const Dashboard = ({baseURL}) => {
                 {text && <p className='text-yellow-800 bg-yellow-200 rounded text-sm p-1 border border-yellow-600 text-center'>{text}</p>}
                 {error && <p className='text-red-800 bg-red-200 rounded text-sm p-1 border border-red-600 text-center'>Fields cannot be empty</p>}
                 <label htmlFor="email" className=''>Email</label>
-                <input type="text" name="email" id="email" className='w-[100%] border-slate-300 bg-white text-black p-2 rounded block mt-2 mb-3' placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
+                <input type="text" name="email" id="email" className='box w-[100%] focus:outline-none border-slate-300 bg-white text-black p-2 rounded block mt-2 mb-3' placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
                 <label htmlFor="userName" className='mt-5'>Username</label>
-                <input type="text" name="username" id="userName" className='w-[100%] border-slate-300 bg-white text-black p-2 rounded block mt-2 mb-3' placeholder='username' value={username} onChange={(e) => setUsername(e.target.value)}/>
+                <input type="text" name="username" id="userName" className='box w-[100%] focus:outline-none border-slate-300 bg-white text-black p-2 rounded block mt-2 mb-3' placeholder='username' value={username} onChange={(e) => setUsername(e.target.value)}/>
                 <label htmlFor="password" className='mt-5'>Password</label>
-                <input type="password" name="password" id="password" className='w-[100%] border-slate-300 bg-white text-black p-2 rounded block mt-2 mb-3' placeholder='********' value={password} onChange={(e) => setPassword(e.target.value)}/>
+                <input type="password" name="password" id="password" className='box w-[100%] focus:outline-none border-slate-300 bg-white text-black p-2 rounded block mt-2 mb-3' placeholder='********' value={password} onChange={(e) => setPassword(e.target.value)}/>
                 <label htmlFor="newPassword" className='mt-5'>New Password</label>
-                <input type="newPassword" name="newPassword" id="newPassword" className='w-[100%] border-slate-300 bg-white text-black p-2 rounded block mt-2' placeholder='********' value={new_password} onChange={(e) => setNew_password(e.target.value)}/>
+                <input type="newPassword" name="newPassword" id="newPassword" className='box w-[100%] focus:outline-none border-slate-300 bg-white text-black p-2 rounded block mt-2' placeholder='********' value={new_password} onChange={(e) => setNew_password(e.target.value)}/>
                 {loading ? <div className='loader btn glass pt-4 text-white my-5 block w-[95%]'><i class="fa-solid fa-spinner fa-spin"></i></div> : <button type='submit' className='btn glass text-white my-5 block w-[95%]'>Update Password</button>}
             </form>}
         </div>

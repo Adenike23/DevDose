@@ -38,7 +38,7 @@ useEffect(()=>{
       <p className='todaysDate'></p>
     </div>
     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-5 py-10'>
-    {loading && <div className='absolute left-[45%] top-[30%] -translate-x-[50%] text-black m-3 text-5xl'><i class="fa-solid fa-spinner fa-spin"></i></div>}
+    {loading && <div className='absolute left-[45%] top-[30%] -translate-x-[50%] text-black m-3 text-5xl md:left-[50%]'><i class="fa-solid fa-spinner fa-spin"></i></div>}
         {/* <div className="card shadow-xl bg-gray-950 text-white cursor-pointer">
         <div className="flex justify-between items-center pt-5 px-6">
            <p className=''>2023-04-29</p>
